@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.ContactsContract.Contacts
 import android.provider.Settings
 import android.telecom.TelecomManager
 import com.chamadacerta.app.calls.CallUiActivity
@@ -15,6 +16,13 @@ import com.chamadacerta.app.domain.DialNumber
 import org.json.JSONObject
 
 class DeviceActions(private val activity: Activity) {
+    fun editContact(uri: Uri, reply: BridgeReply) =
+        open(
+            Intent(Intent.ACTION_EDIT).setDataAndType(uri, Contacts.CONTENT_ITEM_TYPE),
+            reply,
+            "Não foi possível abrir o editor de contatos do Android.",
+        )
+
     fun openSettings(reply: BridgeReply) =
         open(
             Intent(

@@ -26,3 +26,7 @@ As verificações fazem parte de `verify` e `android:verify`, usados no [workflo
 Detekt está configurado para análise de fontes sem resolução de tipos; isso evita tratar sua versão interna do Kotlin como compilador do aplicativo. A compilação Kotlin permanece uma verificação separada. Consulte [compatibilidade do Detekt](https://detekt.dev/docs/introduction/compatibility/).
 
 O verificador de arquitetura não substitui revisão de comportamento e o de links não verifica âncoras, URLs externas ou links construídos em tempo de execução. Para detalhes, consulte os [scripts](../scripts/check-architecture.mjs) e [testes da política](../tests/tooling/architecture.test.mjs).
+
+## Estilo sem ponto e vírgula
+
+ESLint Stylistic usa `semi: never` em JavaScript, TypeScript e JSX. Prettier usa `semi: false`; `npm run lint:fix` corrige ocorrências e `npm run format` aplica o formato completo. Não se removem separadores necessários em `for`, CSS, SQL ou literais de texto.

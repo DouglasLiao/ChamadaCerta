@@ -1,31 +1,46 @@
-import { useState } from 'react';
-import { Search, Phone, Plus } from 'lucide-react';
-import { useApp } from '../../presentation/AppProvider';
-import { EmptyState } from '../../shared/ui/EmptyState';
-import { CallAction } from '../phone/CallAction';
-import { ContactEditor } from './ContactEditor';
-import { filterContacts } from './filterContacts';
+import { useCallback, useDeferredValue, useMemo, useState } from 'react'
+import { Search, Plus } from 'lucide-react'
+import { useApp } from '../../presentation/AppProvider'
+import { EmptyState } from '../../shared/ui/EmptyState'
+import { ContactEditor } from './ContactEditor'
+import { searchContactDirectory } from '../../domain/contactDirectory'
+import { ContactResults } from './ContactResults'
+
 export function ContactsScreen() {
-  const device = useApp();
-  const [query, setQuery] = useState('');
-  const [adding, setAdding] = useState(false);
-  const [saved, setSaved] = useState(false);
-  const matches = filterContacts(device.contacts, query);
+  const device = useApp()
+  const [query, setQuery] = useState('')
+  const [adding, setAdding] = useState(false)
+  const [saved, setSaved] = useState(false)
+  const directory = device.contactDirectory
+  const deferredQuery = useDeferredValue(query)
+  const matches = useMemo(
+    () => searchContactDirectory(directory, deferredQuery),
+    [directory, deferredQuery],
+  )
+  const { action, commands } = device
+  const editContact = useCallback(
+    (id: string) => {
+      void action(() => commands.editContact(id))
+    },
+    [action, commands],
+  )
   const canRequestPermission =
-    device.native && !device.loading && !device.status?.contactsPermission;
+    device.native && !device.loading && !device.status?.contactsPermission
   return (
     <section>
       <div className="cc-title">
         <div>
           <h2>Contatos</h2>
-          <p>{device.contacts.length} contatos no aparelho</p>
+          <p>
+            {directory.length} números · {device.contacts.length} registros na agenda
+          </p>
         </div>
         <button
           aria-label="Adicionar contato na agenda"
           disabled={!device.native || device.busy}
           onClick={() => {
-            setSaved(false);
-            setAdding(true);
+            setSaved(false)
+            setAdding(true)
           }}
         >
           <Plus />
@@ -35,9 +50,9 @@ export function ContactsScreen() {
         <ContactEditor
           onCancel={() => setAdding(false)}
           onSaved={() => {
-            setAdding(false);
-            setQuery('');
-            setSaved(true);
+            setAdding(false)
+            setQuery('')
+            setSaved(true)
           }}
         />
       )}
@@ -86,7 +101,7 @@ export function ContactsScreen() {
           </button>
         </div>
       )}
-      {device.loading ? (
+      {device.loading && !device.contacts.length ? (
         <EmptyState title="Carregando contatos…">Consultando a agenda do aparelho.</EmptyState>
       ) : !matches.length ? (
         <EmptyState
@@ -99,23 +114,15 @@ export function ContactsScreen() {
               : 'Autorize o acesso no Android para exibir os contatos da sua agenda.'}
         </EmptyState>
       ) : (
-        <ul className="cc-list">
-          {matches.map((contact) => (
-            <li className="cc-row" key={contact.id}>
-              <span className="cc-avatar" aria-hidden="true">
-                {contact.name.charAt(0)}
-              </span>
-              <div className="cc-row-text">
-                <strong>{contact.name}</strong>
-                <p>{contact.number}</p>
-              </div>
-              <CallAction number={contact.number} label={`Ligar para ${contact.name}`}>
-                <Phone size={20} />
-              </CallAction>
-            </li>
-          ))}
-        </ul>
+        <div aria-busy={query !== deferredQuery}>
+          <ContactResults
+            key={deferredQuery}
+            groups={matches}
+            onEdit={editContact}
+            disabled={!device.native || device.busy}
+          />
+        </div>
       )}
     </section>
-  );
+  )
 }

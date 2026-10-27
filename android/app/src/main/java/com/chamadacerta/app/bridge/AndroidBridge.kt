@@ -27,6 +27,8 @@ class AndroidBridge(
     private val contacts = ContactsRepository(activity)
     private val history = CallHistoryRepository(activity)
 
+    fun invalidateContacts() = contacts.invalidate()
+
     // MainActivity checks WEB_MESSAGE_LISTENER before creating this bridge.
     @android.annotation.SuppressLint("RequiresFeature")
     fun attach(webView: WebView) {
@@ -86,9 +88,17 @@ class AndroidBridge(
         try {
             val result =
                 when (method) {
-                    "saveContact" ->
-                        ContactWriter(activity)
-                            .save(args.getString("name"), args.getString("number"))
+                    "saveContact" -> {
+                        val saved =
+                            ContactWriter(activity)
+                                .save(args.getString("name"), args.getString("number"))
+                        contacts.invalidate()
+                        saved
+                    }
+                    "editContact" -> {
+                        editContact(args.getString("id"), reply)
+                        return
+                    }
                     "status" -> status.read()
                     "contacts" -> JSONObject().put("items", contacts.read())
                     "history" -> history.read()
@@ -117,5 +127,12 @@ class AndroidBridge(
 
     override fun close() {
         worker.shutdown()
+    }
+
+    private fun editContact(reference: String, reply: BridgeReply) {
+        val uri = contacts.editTarget(reference)
+        activity.runOnUiThread {
+            if (!activity.isFinishing && !activity.isDestroyed) actions.editContact(uri, reply)
+        }
     }
 }

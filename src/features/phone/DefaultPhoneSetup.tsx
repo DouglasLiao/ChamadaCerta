@@ -1,9 +1,9 @@
-import { Phone, CheckCircle2, Bell, Settings } from 'lucide-react';
-import { useApp } from '../../presentation/AppProvider';
+import { Phone, CheckCircle2, Bell, Settings } from 'lucide-react'
+import { useApp } from '../../presentation/AppProvider'
 export function DefaultPhoneSetup() {
-  const device = useApp();
-  const status = device.status;
-  const unavailable = !device.native || device.busy || device.loading || !status;
+  const device = useApp()
+  const status = device.status
+  const unavailable = !device.native || device.busy || device.loading || !status
   return (
     <section className="cc-card cc-phone-setup" aria-label="Telefone padrão">
       <div className="cc-title">
@@ -94,5 +94,5 @@ export function DefaultPhoneSetup() {
         </button>
       )}
     </section>
-  );
+  )
 }

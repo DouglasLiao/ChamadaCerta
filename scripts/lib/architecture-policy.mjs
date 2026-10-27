@@ -1,12 +1,22 @@
-import path from 'node:path';
+import path from 'node:path'
 const dependencies = {
   domain: new Set(['domain']),
+  config: new Set(['config']),
   application: new Set(['domain', 'application']),
-  platform: new Set(['domain', 'application', 'platform']),
-  presentation: new Set(['domain', 'application', 'presentation', 'shared']),
-  features: new Set(['domain', 'application', 'presentation', 'features', 'shared']),
+  platform: new Set(['domain', 'application', 'platform', 'config']),
+  presentation: new Set(['domain', 'application', 'presentation', 'shared', 'config']),
+  features: new Set(['domain', 'application', 'presentation', 'features', 'shared', 'config']),
   shared: new Set(['shared']),
-  app: new Set(['app', 'domain', 'application', 'platform', 'presentation', 'features', 'shared']),
+  app: new Set([
+    'app',
+    'domain',
+    'application',
+    'platform',
+    'presentation',
+    'features',
+    'shared',
+    'config',
+  ]),
   composition: new Set([
     'app',
     'domain',
@@ -15,47 +25,48 @@ const dependencies = {
     'presentation',
     'features',
     'shared',
+    'config',
   ]),
-};
+}
 export function sourceLayer(file) {
-  const normalized = file.replaceAll('\\', '/');
-  if (normalized === 'src/main.tsx') return 'composition';
-  return normalized.startsWith('src/') ? normalized.split('/')[1] : null;
+  const normalized = file.replaceAll('\\', '/')
+  if (normalized === 'src/main.tsx') return 'composition'
+  return normalized.startsWith('src/') ? normalized.split('/')[1] : null
 }
 export function importViolation(from, specifier) {
-  const layer = sourceLayer(from);
-  if (!dependencies[layer]) return `Camada não registrada: ${from}`;
+  const layer = sourceLayer(from)
+  if (!dependencies[layer]) return `Camada não registrada: ${from}`
   if (!specifier.startsWith('.') && !specifier.startsWith('/src/')) {
     return ['domain', 'application'].includes(layer)
       ? `${from}: dependência externa ${specifier} no núcleo`
-      : null;
+      : null
   }
   const target = specifier.startsWith('/src/')
     ? specifier.slice(1)
-    : path.posix.normalize(path.posix.join(path.posix.dirname(from), specifier));
-  const targetLayer = sourceLayer(target);
+    : path.posix.normalize(path.posix.join(path.posix.dirname(from), specifier))
+  const targetLayer = sourceLayer(target)
   return dependencies[layer].has(targetLayer)
     ? null
-    : `${from}: ${layer} não pode depender de ${targetLayer ?? target}`;
+    : `${from}: ${layer} não pode depender de ${targetLayer ?? target}`
 }
 export function findCycles(graph) {
-  const visited = new Set();
-  const active = new Set();
-  const stack = [];
-  const cycles = [];
+  const visited = new Set()
+  const active = new Set()
+  const stack = []
+  const cycles = []
   function visit(file) {
     if (active.has(file)) {
-      cycles.push([...stack.slice(stack.indexOf(file)), file]);
-      return;
+      cycles.push([...stack.slice(stack.indexOf(file)), file])
+      return
     }
-    if (visited.has(file)) return;
-    active.add(file);
-    stack.push(file);
-    for (const target of graph.get(file) ?? []) visit(target);
-    stack.pop();
-    active.delete(file);
-    visited.add(file);
+    if (visited.has(file)) return
+    active.add(file)
+    stack.push(file)
+    for (const target of graph.get(file) ?? []) visit(target)
+    stack.pop()
+    active.delete(file)
+    visited.add(file)
   }
-  for (const file of graph.keys()) visit(file);
-  return cycles;
+  for (const file of graph.keys()) visit(file)
+  return cycles
 }

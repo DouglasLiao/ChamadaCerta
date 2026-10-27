@@ -1,6 +1,6 @@
-import type { DeviceGateway } from './ports/DeviceGateway';
-import { placeCall } from './usecases/placeCall';
-import { saveContact } from './usecases/saveContact';
+import type { DeviceGateway } from './ports/DeviceGateway'
+import { placeCall } from './usecases/placeCall'
+import { saveContact } from './usecases/saveContact'
 export function createDeviceCommands(
   gateway: DeviceGateway,
   canCall: boolean,
@@ -11,6 +11,7 @@ export function createDeviceCommands(
     requestDefaultDialer: () => gateway.requestDefaultDialer(),
     requestCallPermission: () => gateway.requestCallPermission(),
     requestContacts: () => gateway.requestContacts(),
+    editContact: (id: string) => gateway.editContact(id),
     requestHistory: () => gateway.requestHistory(),
     requestScreening: () => gateway.requestScreening(),
     requestNotifications: () => gateway.requestNotifications(),
@@ -22,5 +23,5 @@ export function createDeviceCommands(
     placeCall: (number: string) => placeCall(gateway, number, canCall),
     saveContact: (name: string, number: string) =>
       saveContact(gateway, name, number, canWriteContacts),
-  };
+  }
 }

@@ -6,7 +6,7 @@ Aplicativo Android 10+ para centralizar discagem, contatos e chamadas. Interface
 
 - Recentes: histórico de triagem e histórico do aparelho, quando autorizado.
 - Teclado: ligação real com confirmação no botão **Ligar**; links `tel:` apenas preenchem o número.
-- Contatos: consulta, busca e cadastro na agenda Android mediante permissões específicas.
+- Contatos: busca indexada, agrupamento de números equivalentes, cadastro e edição pelo editor da agenda Android. Resultados em páginas de 50 números para manter a resposta em agendas grandes.
 - Telefone padrão: solicitação de `ROLE_DIALER`, atendimento, recusa, encerramento, microfone, saída de áudio, espera, DTMF, seleção de conta e conferência conforme capacidades do Telecom.
 - Proteção: bloqueio opcional de números fora dos contatos com `CallScreeningService`. Erros na consulta permitem a chamada.
 
@@ -17,6 +17,8 @@ Nenhum provedor de spam está integrado. A interface informa **Verificação ind
 Requisitos: Node.js 24, npm, JDK 17 (`JAVA_HOME`), Android SDK plataforma 35 e Build Tools 35.0.0 (`ANDROID_HOME`). O Gradle Wrapper está incluído. Android Studio é opcional.
 
 Na raiz desta pasta:
+
+Copie `.env.example` para `.env` e ajuste os caminhos locais, se necessário. Consulte [configuração por ambiente](docs/configuration.md). O CI usa os padrões sem depender de um arquivo pessoal.
 
 ```sh
 npm ci

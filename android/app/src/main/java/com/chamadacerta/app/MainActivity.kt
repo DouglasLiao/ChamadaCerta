@@ -34,6 +34,15 @@ class MainActivity : Activity() {
     private var bridge: AndroidBridge? = null
     private lateinit var permissionCoordinator: PermissionCoordinator
     private var receiverRegistered = false
+    private val refreshHandler = Handler(Looper.getMainLooper())
+    private val refreshTask = Runnable { dispatchRefresh() }
+    private val contactsObserver =
+        object : ContentObserver(refreshHandler) {
+            override fun onChange(selfChange: Boolean) {
+                bridge?.invalidateContacts()
+                notifyRefresh()
+            }
+        }
     private val observer =
         object : ContentObserver(Handler(Looper.getMainLooper())) {
             override fun onChange(selfChange: Boolean) = notifyRefresh()
@@ -105,6 +114,8 @@ class MainActivity : Activity() {
     }
 
     private fun observeGrantedProviders() {
+        bridge?.invalidateContacts()
+        contentResolver.unregisterContentObserver(contactsObserver)
         contentResolver.unregisterContentObserver(observer)
         if (
             checkSelfPermission(Manifest.permission.READ_CONTACTS) ==
@@ -114,7 +125,7 @@ class MainActivity : Activity() {
                 contentResolver.registerContentObserver(
                     Uri.parse("content://com.android.contacts"),
                     true,
-                    observer,
+                    contactsObserver,
                 )
             }
         }
@@ -150,6 +161,11 @@ class MainActivity : Activity() {
     }
 
     private fun notifyRefresh() {
+        refreshHandler.removeCallbacks(refreshTask)
+        refreshHandler.postDelayed(refreshTask, 250)
+    }
+
+    private fun dispatchRefresh() {
         val page = webView ?: return
         page.post {
             if (!isFinishing && !isDestroyed)
@@ -174,6 +190,8 @@ class MainActivity : Activity() {
     }
 
     override fun onDestroy() {
+        refreshHandler.removeCallbacksAndMessages(null)
+        contentResolver.unregisterContentObserver(contactsObserver)
         if (receiverRegistered) unregisterReceiver(updates)
         contentResolver.unregisterContentObserver(observer)
         bridge?.close()

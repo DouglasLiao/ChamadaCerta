@@ -9,4 +9,4 @@ export default {
     // Light/dark tokens intentionally remain named hexadecimal values for auditing.
     'color-function-notation': 'modern',
   },
-};
+}

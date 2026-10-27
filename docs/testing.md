@@ -39,3 +39,9 @@ Teste o comportamento observável: entrada inválida não pede permissão; recus
 Verificação local: `verify` aprovado com 60 testes TypeScript/React e quatro testes das regras arquiteturais. `android:verify` aprovado com 11 testes JVM, Detekt e Spotless. Android Lint: zero erros e dois avisos de versões mais recentes de dependências AndroidX; o compilador também informa APIs legadas de telefonia/layout usadas na compatibilidade Android. Esses avisos continuam visíveis e devem ser avaliados na atualização de SDK e bibliotecas.
 
 `npm audit` não reportou vulnerabilidades. O APK debug gerado teve assinatura verificada com `apksigner`. Nenhum aparelho estava conectado via ADB: atendimento, áudio, triagem e persistência em dispositivo continuam dependentes do roteiro manual acima. Não foi executado CI remoto nesta verificação.
+
+## Regressões de contatos na versão 2.3.0
+
+Testes automatizados verificam agrupamento conservador, nomes alternativos, preservação dos registros, busca com 10 mil cadastros, limite de 50 linhas no DOM, ausência de chamadas nativas durante digitação, escolha do registro para edição, falha do editor e atualização após mudança da agenda. Execute também o [benchmark reproduzível](contacts.md).
+
+No S23 Ultra, confira busca com agenda sincronizada, formatos `021...`/`+5521...`, edição salva e cancelada, volta de outra aplicação, contatos removidos e revogação de leitura. O teste de navegador com dados sintéticos não valida o editor Samsung nem mede o desempenho físico do aparelho.

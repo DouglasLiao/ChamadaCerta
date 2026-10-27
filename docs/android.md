@@ -32,3 +32,7 @@ Telecom controla o estado e as capacidades disponíveis. Interface nativa atende
 `CallScreeningService` aplica bloqueio apenas quando a preferência está ligada e a consulta de contatos está disponível. Prazo interno: 3,5 segundos. Timeout, cancelamento e falha permitem a chamada. A resposta é protegida contra duplicação. Não use consultas de rede no caminho crítico sem nova decisão de arquitetura.
 
 Receber `ACTION_DIAL` ou `tel:` prepara o teclado; não executa chamada. Para comportamento em aparelhos reais, siga [testes](testing.md).
+
+## Edição de contatos
+
+O lápis abre o editor de contatos do Android com `ACTION_EDIT`, depois de resolver a linha escolhida para uma URI de lookup. O sistema controla escrita, conta e cancelamento. A confirmação da ponte significa apenas abertura. Não se modifica todos os registros agrupados de uma vez. Ao retornar, a lista é recarregada; consulte [contatos](contacts.md).

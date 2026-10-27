@@ -12,8 +12,8 @@ android {
         applicationId = "com.chamadacerta.app"
         minSdk = 29
         targetSdk = 35
-        versionCode = 5
-        versionName = "2.2.0"
+        versionCode = 6
+        versionName = "2.3.0"
         testInstrumentationRunner = "android.test.InstrumentationTestRunner"
     }
     compileOptions {

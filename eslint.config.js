@@ -1,9 +1,28 @@
-import tseslint from 'typescript-eslint';
-import reactHooks from 'eslint-plugin-react-hooks';
-import { fileURLToPath } from 'node:url';
+import tseslint from 'typescript-eslint'
+import reactHooks from 'eslint-plugin-react-hooks'
+import stylistic from '@stylistic/eslint-plugin'
+import { fileURLToPath } from 'node:url'
 export default tseslint.config(
   { ignores: ['node_modules/**', 'dist/**', 'artifacts/**', 'android/**', '.tools/**'] },
   ...tseslint.configs.recommended,
+  {
+    files: ['**/*.{js,mjs,ts,tsx}'],
+    plugins: { '@stylistic': stylistic },
+    rules: { '@stylistic/semi': ['error', 'never'] },
+  },
+  {
+    files: ['src/**/*.{ts,tsx}'],
+    ignores: ['src/config/**'],
+    rules: {
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: "MemberExpression[object.type='MetaProperty'][property.name='env']",
+          message: 'Leia a configuração validada em src/config/runtime.ts.',
+        },
+      ],
+    },
+  },
   {
     files: ['src/**/*.{ts,tsx}'],
     extends: [...tseslint.configs.recommendedTypeChecked],
@@ -36,4 +55,4 @@ export default tseslint.config(
       ],
     },
   },
-);
+)

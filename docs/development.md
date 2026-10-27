@@ -2,6 +2,8 @@
 
 ## Ambiente reproduzível
 
+Copie `.env.example` para `.env` e ajuste os caminhos da estação. Os comandos Node leem o arquivo; o Vite carrega as opções públicas no build. Consulte [configuração](configuration.md) para nomes, padrões, precedência e limites. Arquivos de ambiente locais não são versionados.
+
 Use Node.js 24 (arquivo `.nvmrc`), JDK 17 e Android SDK 35/Build Tools 35.0.0. Instale dependências com `npm ci`; versione `package-lock.json`, Gradle Wrapper e configurações. Não versione SDK, JDK, caches, `.env`, keystores ou `android/local.properties`.
 
 Exemplo PowerShell, ajustando os caminhos locais:

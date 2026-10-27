@@ -311,6 +311,49 @@ a {
   color: var(--cc-accent);
 }
 
+.cc-contact-item {
+  list-style: none;
+}
+
+.cc-contact-records {
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--cc-surface);
+}
+
+.cc-contact-records ul {
+  list-style: none;
+  padding: 0;
+}
+
+.cc-contact-records li,
+.cc-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.cc-contact-records li {
+  padding-block: 8px;
+}
+
+.cc-contact-records span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.cc-contact-records small {
+  display: block;
+  color: var(--cc-muted);
+}
+
+.cc-pagination {
+  flex-wrap: wrap;
+  margin-block: 16px;
+  font-size: 12px;
+}
+
 .cc-row-text {
   flex: 1;
   min-width: 0;

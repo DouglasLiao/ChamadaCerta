@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { UserPlus } from 'lucide-react';
-import { useApp } from '../../presentation/AppProvider';
-import { isDialableNumber } from '../../domain/phoneNumber';
-import { ContactEditor } from './ContactEditor';
+import { useState } from 'react'
+import { UserPlus } from 'lucide-react'
+import { useApp } from '../../presentation/AppProvider'
+import { isDialableNumber } from '../../domain/phoneNumber'
+import { ContactEditor } from './ContactEditor'
 export function SaveContactAction({ number }: { number: string }) {
-  const device = useApp();
-  const [editing, setEditing] = useState(false);
-  const [saved, setSaved] = useState(false);
+  const device = useApp()
+  const [editing, setEditing] = useState(false)
+  const [saved, setSaved] = useState(false)
   return (
     <div>
       {editing ? (
@@ -14,8 +14,8 @@ export function SaveContactAction({ number }: { number: string }) {
           initialNumber={number}
           onCancel={() => setEditing(false)}
           onSaved={() => {
-            setEditing(false);
-            setSaved(true);
+            setEditing(false)
+            setSaved(true)
           }}
         />
       ) : (
@@ -23,8 +23,8 @@ export function SaveContactAction({ number }: { number: string }) {
           className="cc-text-button"
           disabled={!device.native || device.busy || !isDialableNumber(number)}
           onClick={() => {
-            setSaved(false);
-            setEditing(true);
+            setSaved(false)
+            setEditing(true)
           }}
         >
           <UserPlus size={18} />
@@ -37,5 +37,5 @@ export function SaveContactAction({ number }: { number: string }) {
         </p>
       )}
     </div>
-  );
+  )
 }

@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { PhoneIncoming, PhoneOutgoing, PhoneMissed, ShieldAlert, X, RefreshCw } from 'lucide-react';
-import { useApp } from '../../presentation/AppProvider';
-import type { CallRecord } from '../../domain/models';
-import { EmptyState } from '../../shared/ui/EmptyState';
-import { ProtectionStatus } from '../protection/ProtectionStatus';
-import { CallAction } from '../phone/CallAction';
-import { SaveContactAction } from '../contacts/SaveContactAction';
+import { useState } from 'react'
+import { PhoneIncoming, PhoneOutgoing, PhoneMissed, ShieldAlert, X, RefreshCw } from 'lucide-react'
+import { useApp } from '../../presentation/AppProvider'
+import type { CallRecord } from '../../domain/models'
+import { EmptyState } from '../../shared/ui/EmptyState'
+import { ProtectionStatus } from '../protection/ProtectionStatus'
+import { CallAction } from '../phone/CallAction'
+import { SaveContactAction } from '../contacts/SaveContactAction'
 const labels = {
   blocked: 'Bloqueada',
   missed: 'Perdida',
@@ -13,25 +13,25 @@ const labels = {
   incoming: 'Recebida',
   outgoing: 'Efetuada',
   rejected: 'Recusada',
-};
+}
 function formatTime(timestamp: string) {
-  const date = new Date(timestamp);
+  const date = new Date(timestamp)
   return Number.isNaN(date.getTime())
     ? timestamp
-    : new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeStyle: 'short' }).format(date);
+    : new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeStyle: 'short' }).format(date)
 }
 const entryLabel = (entry: CallRecord) =>
   entry.source === 'screening' && entry.status === 'incoming'
     ? 'Tentativa recebida'
-    : labels[entry.status];
+    : labels[entry.status]
 export const CallsScreen = () => {
-  const device = useApp();
-  const [blockedOnly, setBlockedOnly] = useState(false);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [confirmClear, setConfirmClear] = useState(false);
-  const history = device.history;
-  const selected = history.find((call) => call.id === selectedId);
-  const entries = blockedOnly ? history.filter((c) => c.status === 'blocked') : history;
+  const device = useApp()
+  const [blockedOnly, setBlockedOnly] = useState(false)
+  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [confirmClear, setConfirmClear] = useState(false)
+  const history = device.history
+  const selected = history.find((call) => call.id === selectedId)
+  const entries = blockedOnly ? history.filter((c) => c.status === 'blocked') : history
   return (
     <section>
       <div className="cc-title">
@@ -104,7 +104,7 @@ export const CallsScreen = () => {
                   ? PhoneMissed
                   : c.status === 'outgoing'
                     ? PhoneOutgoing
-                    : PhoneIncoming;
+                    : PhoneIncoming
             return (
               <li key={c.id}>
                 <button
@@ -123,7 +123,7 @@ export const CallsScreen = () => {
                   </div>
                 </button>
               </li>
-            );
+            )
           })}
         </ul>
       )}
@@ -162,9 +162,9 @@ export const CallsScreen = () => {
               <button
                 disabled={device.busy}
                 onClick={() => {
-                  setSelectedId(null);
-                  void device.action(device.commands.clearBlockedHistory);
-                  setConfirmClear(false);
+                  setSelectedId(null)
+                  void device.action(device.commands.clearBlockedHistory)
+                  setConfirmClear(false)
                 }}
               >
                 Remover registros do app
@@ -185,5 +185,5 @@ export const CallsScreen = () => {
         </p>
       )}
     </section>
-  );
-};
+  )
+}

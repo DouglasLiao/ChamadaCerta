@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { Delete, Phone } from 'lucide-react';
-import { isDialableNumber } from '../../domain/phoneNumber';
-import { CallAction } from '../phone/CallAction';
-import { SaveContactAction } from '../contacts/SaveContactAction';
-import { useApp } from '../../presentation/AppProvider';
+import { useState } from 'react'
+import { Delete, Phone } from 'lucide-react'
+import { isDialableNumber } from '../../domain/phoneNumber'
+import { CallAction } from '../phone/CallAction'
+import { SaveContactAction } from '../contacts/SaveContactAction'
+import { useApp } from '../../presentation/AppProvider'
 const keys = [
   ['1', ''],
   ['2', 'ABC'],
@@ -17,11 +17,11 @@ const keys = [
   ['*', ''],
   ['0', '+'],
   ['#', ''],
-];
+]
 export function DialerScreen({ initialNumber = '' }: { initialNumber?: string }) {
-  const [number, setNumber] = useState(initialNumber);
-  const device = useApp();
-  const validNumber = isDialableNumber(number);
+  const [number, setNumber] = useState(initialNumber)
+  const device = useApp()
+  const validNumber = isDialableNumber(number)
   return (
     <section className="cc-dialpad">
       <h2>Teclado</h2>
@@ -78,5 +78,5 @@ export function DialerScreen({ initialNumber = '' }: { initialNumber?: string })
           : ''}
       </p>
     </section>
-  );
+  )
 }

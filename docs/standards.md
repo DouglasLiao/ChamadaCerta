@@ -8,6 +8,8 @@ Nomes descrevem intenção. Arquivos React usam PascalCase, hooks começam com `
 
 ## TypeScript e React
 
+Use o estilo sem ponto e vírgula ao terminar instruções. ESLint Stylistic aplica `semi: never` e Prettier usa `semi: false`. `npm run lint:fix` corrige as ocorrências automaticamente. Pontuação necessária em cabeçalhos `for`, textos, CSS e SQL não deve ser removida por substituição textual.
+
 - Mantenha modo estrito e imports de tipos explícitos; não use `any` para contornar a ponte.
 - Dados externos entram como `unknown` e passam pelos decodificadores.
 - Promises precisam de `await`, retorno ou tratamento explícito. Em eventos síncronos, use wrapper com `void` somente quando a função chamada trata a falha.

@@ -10,26 +10,29 @@ Consultas/ações expiram em 15 segundos; métodos `request*` em 180 segundos. R
 
 ## Métodos
 
-| Método                   | Argumentos     | Resultado                                         |
-| ------------------------ | -------------- | ------------------------------------------------- |
-| `status`                 | nenhum         | Estado real de permissões, papéis e proteção      |
-| `contacts`               | nenhum         | `{items}` de contatos                             |
-| `history`                | nenhum         | `{items, warning}` de histórico                   |
-| `dialRequest`            | nenhum         | `{id, number}` da intenção pendente               |
-| `dial`                   | `number`       | Confirmação de encaminhamento ao Telecom          |
-| `saveContact`            | `name, number` | Confirmação de gravação                           |
-| `setBlocking`            | `enabled`      | Estado atualizado                                 |
-| `clearBlockedHistory`    | nenhum         | `{cleared: true}`; somente registros locais       |
-| `requestDefaultDialer`   | nenhum         | Estado após escolha do papel                      |
-| `requestScreening`       | nenhum         | Estado após escolha de triagem                    |
-| `requestCallPermission`  | nenhum         | Estado após pedido de chamadas                    |
-| `requestContacts`        | nenhum         | Estado após pedido de leitura de contatos         |
-| `requestWriteContacts`   | nenhum         | Estado após pedido de escrita                     |
-| `requestHistory`         | nenhum         | Estado após pedido do histórico                   |
-| `requestNotifications`   | nenhum         | Estado; pedido somente quando exigido pela versão |
-| `openFullScreenSettings` | nenhum         | Confirmação de abertura das configurações         |
-| `openSettings`           | nenhum         | Confirmação de abertura das configurações         |
-| `openInCall`             | nenhum         | Confirmação de abertura da UI de chamada          |
+| Método                   | Argumentos                | Resultado                                         |
+| ------------------------ | ------------------------- | ------------------------------------------------- |
+| `status`                 | nenhum                    | Estado real de permissões, papéis e proteção      |
+| `contacts`               | nenhum                    | `{items}` de contatos                             |
+| `history`                | nenhum                    | `{items, warning}` de histórico                   |
+| `dialRequest`            | nenhum                    | `{id, number}` da intenção pendente               |
+| `dial`                   | `number`                  | Confirmação de encaminhamento ao Telecom          |
+| `saveContact`            | `name, number`            | Confirmação de gravação                           |
+| `editContact`            | `id` da linha de telefone | `{opened: true}`; abertura do editor Android      |
+| `setBlocking`            | `enabled`                 | Estado atualizado                                 |
+| `clearBlockedHistory`    | nenhum                    | `{cleared: true}`; somente registros locais       |
+| `requestDefaultDialer`   | nenhum                    | Estado após escolha do papel                      |
+| `requestScreening`       | nenhum                    | Estado após escolha de triagem                    |
+| `requestCallPermission`  | nenhum                    | Estado após pedido de chamadas                    |
+| `requestContacts`        | nenhum                    | Estado após pedido de leitura de contatos         |
+| `requestWriteContacts`   | nenhum                    | Estado após pedido de escrita                     |
+| `requestHistory`         | nenhum                    | Estado após pedido do histórico                   |
+| `requestNotifications`   | nenhum                    | Estado; pedido somente quando exigido pela versão |
+| `openFullScreenSettings` | nenhum                    | Confirmação de abertura das configurações         |
+| `openSettings`           | nenhum                    | Confirmação de abertura das configurações         |
+| `openInCall`             | nenhum                    | Confirmação de abertura da UI de chamada          |
+
+A edição não confirma salvamento: o usuário pode cancelar o editor. Consulte [contatos](contacts.md).
 
 A confirmação de `dial` não comprova conexão ou atendimento. A confirmação de uma tela de configuração não concede permissão.
 

@@ -1,35 +1,35 @@
-import { useState } from 'react';
-import type { FormEvent } from 'react';
-import { useApp } from '../../presentation/AppProvider';
-import { validateContactDraft } from '../../domain/contactDraft';
+import { useState } from 'react'
+import type { FormEvent } from 'react'
+import { useApp } from '../../presentation/AppProvider'
+import { validateContactDraft } from '../../domain/contactDraft'
 interface ContactEditorProps {
-  initialNumber?: string;
-  onSaved: () => void;
-  onCancel: () => void;
+  initialNumber?: string
+  onSaved: () => void
+  onCancel: () => void
 }
 export function ContactEditor({ initialNumber = '', onSaved, onCancel }: ContactEditorProps) {
-  const device = useApp();
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState(initialNumber);
-  const [validation, setValidation] = useState('');
+  const device = useApp()
+  const [name, setName] = useState('')
+  const [number, setNumber] = useState(initialNumber)
+  const [validation, setValidation] = useState('')
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+    event.preventDefault()
     try {
-      validateContactDraft(name, number);
+      validateContactDraft(name, number)
     } catch (error) {
-      setValidation(error instanceof Error ? error.message : 'Confira os dados do contato.');
-      return;
+      setValidation(error instanceof Error ? error.message : 'Confira os dados do contato.')
+      return
     }
-    setValidation('');
-    const saved = await device.action(() => device.commands.saveContact(name, number));
-    if (saved) onSaved();
-  };
+    setValidation('')
+    const saved = await device.action(() => device.commands.saveContact(name, number))
+    if (saved) onSaved()
+  }
   return (
     <form
       className="cc-card cc-form"
       aria-label="Novo contato"
       onSubmit={(event) => {
-        void handleSubmit(event);
+        void handleSubmit(event)
       }}
     >
       <h3>Novo contato</h3>
@@ -68,5 +68,5 @@ export function ContactEditor({ initialNumber = '', onSaved, onCancel }: Contact
         Cancelar
       </button>
     </form>
-  );
+  )
 }

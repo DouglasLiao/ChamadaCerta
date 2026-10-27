@@ -6,15 +6,16 @@ A arquitetura separa regras testáveis das APIs do Android e da interface. A dir
 
 ## Camadas TypeScript
 
-| Camada             | Responsabilidade                                | Dependências permitidas                             |
-| ------------------ | ----------------------------------------------- | --------------------------------------------------- |
-| `domain`           | Modelos, número discável e validação do contato | Apenas domínio                                      |
-| `application`      | `placeCall`, `saveContact`, comandos e portas   | Aplicação e domínio                                 |
-| `platform`         | Transporte nativo, decodificação e adaptadores  | Plataforma, aplicação e domínio                     |
-| `presentation`     | Contexto, atualização de estado e intents       | Apresentação, aplicação, domínio e shared           |
-| `features`         | Telas e ações do usuário                        | Features, apresentação, aplicação, domínio e shared |
-| `shared`           | Componentes genéricos e CSS                     | Apenas shared                                       |
-| `app` e `main.tsx` | Composição                                      | Todas                                               |
+| Camada             | Responsabilidade                                | Dependências permitidas                                     |
+| ------------------ | ----------------------------------------------- | ----------------------------------------------------------- |
+| `domain`           | Modelos, número discável e validação do contato | Apenas domínio                                              |
+| `application`      | `placeCall`, `saveContact`, comandos e portas   | Aplicação e domínio                                         |
+| `platform`         | Transporte nativo, decodificação e adaptadores  | Plataforma, aplicação, domínio e config                     |
+| `presentation`     | Contexto, atualização de estado e intents       | Apresentação, aplicação, domínio, shared e config           |
+| `features`         | Telas e ações do usuário                        | Features, apresentação, aplicação, domínio, shared e config |
+| `config`           | Opções públicas validadas do build              | Apenas config                                               |
+| `shared`           | Componentes genéricos e CSS                     | Apenas shared                                               |
+| `app` e `main.tsx` | Composição                                      | Todas                                                       |
 
 O núcleo não importa React, APIs do navegador, pacotes externos ou adaptadores. A apresentação recebe `DeviceGateway` por injeção; somente a composição instancia `deviceApi`. O [verificador](../scripts/check-architecture.mjs) detecta violações, ciclos e diferenças nos métodos da ponte. Ele analisa imports estáticos e imports dinâmicos literais, não toda semântica do programa.
 
@@ -41,3 +42,11 @@ A interface distingue carregamento, erro, indisponibilidade e permissão negada.
 ## Evolução
 
 Consulte os [ADRs](adr/README.md). Integrações de spam devem implementar uma porta própria, explicitar retenção e autorização, e manter o caminho de atendimento independente da rede. Adicionar uma interface de gateway não autoriza transmissão de dados.
+
+## Contatos em agendas grandes
+
+A lista usa índice memoizado por snapshot e páginas de 50 grupos. A comparação por número preserva IDs e variantes para edição individual. O editor é delegado ao Android por URI de lookup. O cache nativo invalida por eventos do provedor, cadastro e retomada, com verificação de permissão; a apresentação mantém o array anterior quando os dados não mudam. Veja [contatos e performance](contacts.md) e ADRs 0009/0010.
+
+## Configuração externa
+
+A camada `config` lê e valida somente as opções públicas do build. Pode ser importada por plataforma, apresentação, features e composição; não depende delas. Domínio, aplicação e UI genérica não acessam ambiente. O verificador de arquitetura e o ESLint reforçam esse limite. Consulte [configuração](configuration.md).

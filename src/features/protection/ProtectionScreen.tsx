@@ -1,11 +1,11 @@
-import { Check, Users, Shield, Settings } from 'lucide-react';
-import { DefaultPhoneSetup } from '../phone/DefaultPhoneSetup';
-import { useApp } from '../../presentation/AppProvider';
-import { ProtectionStatus } from './ProtectionStatus';
+import { Check, Users, Shield, Settings } from 'lucide-react'
+import { DefaultPhoneSetup } from '../phone/DefaultPhoneSetup'
+import { useApp } from '../../presentation/AppProvider'
+import { ProtectionStatus } from './ProtectionStatus'
 export function ProtectionScreen() {
-  const device = useApp();
-  const enabled = !!device.status?.blockNonContacts;
-  const unavailable = !device.native || device.busy || device.loading;
+  const device = useApp()
+  const enabled = !!device.status?.blockNonContacts
+  const unavailable = !device.native || device.busy || device.loading
   return (
     <section>
       <h2>Proteção de chamadas</h2>
@@ -122,5 +122,5 @@ export function ProtectionScreen() {
         Defina ChamadaCerta como telefone padrão para atender e gerenciar suas chamadas aqui.
       </p>
     </section>
-  );
+  )
 }

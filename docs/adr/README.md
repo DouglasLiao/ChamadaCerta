@@ -12,5 +12,8 @@ ADRs registram contexto, alternativas e consequências. Registros retrospectivos
 | 0006   | [Triagem permite chamada em falha e não inventa reputação](0006-fail-open-screening.md) | Aceito |
 | 0007   | [Build com assets gerados e ferramentas fixadas](0007-packaged-build.md)                | Aceito |
 | 0008   | [Qualidade automatizada e exceções documentadas](0008-quality-gates.md)                 | Aceito |
+| 0009   | [Índice de contatos e agrupamento](0009-contact-directory.md)                           | Aceito |
+| 0010   | [Edição pelo editor Android](0010-system-contact-editor.md)                             | Aceito |
+| 0011   | [Configuração validada por ambiente](0011-environment-configuration.md)                 | Aceito |
 
 Para propor uma decisão, copie o [template](template.md), use o próximo número e status Proposto. Após implementação e revisão, marque Aceito. Para reverter, crie outro ADR, marque o anterior Substituído e ligue os dois; preserve o contexto histórico.

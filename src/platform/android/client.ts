@@ -1,16 +1,16 @@
-import type { DeviceGateway } from '../../application/ports/DeviceGateway';
-import { isNativeDevice, nativeRequest } from './bridge';
-import type { NativeMethod } from './bridge';
+import type { DeviceGateway } from '../../application/ports/DeviceGateway'
+import { isNativeDevice, nativeRequest } from './bridge'
+import type { NativeMethod } from './bridge'
 import {
   decodeContacts,
   decodeHistorySnapshot,
   decodeStatus,
   decodeDialRequest,
   decodeConfirmation,
-} from './decoders';
+} from './decoders'
 const command = async (method: NativeMethod): Promise<void> => {
-  await nativeRequest(method);
-};
+  await nativeRequest(method)
+}
 export const deviceApi = {
   isAvailable: isNativeDevice,
   dialRequest: async () => decodeDialRequest(await nativeRequest('dialRequest')),
@@ -22,6 +22,8 @@ export const deviceApi = {
   openInCall: () => command('openInCall'),
   saveContact: async (name: string, number: string) =>
     decodeConfirmation(await nativeRequest('saveContact', { name, number }), 'saved'),
+  editContact: async (id: string) =>
+    decodeConfirmation(await nativeRequest('editContact', { id }), 'opened'),
   status: async () => decodeStatus(await nativeRequest('status')),
   contacts: async () => decodeContacts(await nativeRequest('contacts')),
   history: async () => decodeHistorySnapshot(await nativeRequest('history')),
@@ -34,4 +36,4 @@ export const deviceApi = {
   dial: async (number: string) =>
     decodeConfirmation(await nativeRequest('dial', { number }), 'started'),
   clearBlockedHistory: () => command('clearBlockedHistory'),
-} satisfies DeviceGateway;
+} satisfies DeviceGateway
