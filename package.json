@@ -1,0 +1,57 @@
+{
+  "name": "chamada-certa-android",
+  "version": "2.2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 3100",
+    "typecheck": "tsc --noEmit",
+    "lint": "npm run lint:code && npm run lint:styles && npm run lint:docs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "build": "npm run typecheck && vite build",
+    "verify": "npm run lint && npm run format:check && npm run check:architecture && npm run check:docs && npm run test:tooling && npm test && npm run build",
+    "mobile:sync": "npm run build && node scripts/sync-mobile.mjs",
+    "android:debug": "npm run mobile:sync && node scripts/android.mjs assembleDebug",
+    "android:test": "node scripts/android.mjs testDebugUnitTest lintDebug spotlessCheck detekt",
+    "android:verify": "npm run mobile:sync && node scripts/android.mjs assembleDebug testDebugUnitTest lintDebug spotlessCheck detekt",
+    "android:format": "node scripts/android.mjs spotlessApply",
+    "lint:code": "eslint . --max-warnings 0",
+    "lint:styles": "stylelint \"src/**/*.css\"",
+    "lint:docs": "markdownlint-cli2",
+    "check:architecture": "node scripts/check-architecture.mjs",
+    "check:docs": "node scripts/check-doc-links.mjs",
+    "test:tooling": "node --test tests/tooling/*.test.mjs"
+  },
+  "dependencies": {
+    "lucide-react": "^1.16.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^10.13.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "jsdom": "^26.0.0",
+    "markdownlint-cli2": "^0.24.0",
+    "prettier": "^3.6.2",
+    "stylelint": "^17.16.0",
+    "stylelint-config-standard": "^40.0.0",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.72.1",
+    "vite": "^6.2.0",
+    "vitest": "^5.0.5"
+  },
+  "private": true,
+  "description": "Aplicativo Android de discagem e prote\u00c3\u00a7\u00c3\u00a3o de chamadas",
+  "engines": {
+    "node": ">=24"
+  },
+  "overrides": {
+    "katex": "^0.19.1"
+  }
+}

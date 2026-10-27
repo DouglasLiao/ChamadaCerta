@@ -1,0 +1,17 @@
+{
+  "globs": ["**/*.md"],
+  "ignores": [
+    "node_modules/**",
+    "artifacts/**",
+    "dist/**",
+    "android/.gradle/**",
+    "android/**/build/**",
+    ".tools/**",
+  ],
+  "config": {
+    "default": true,
+    "MD013": false,
+    "MD024": { "siblings_only": true },
+    "MD033": false,
+  },
+}

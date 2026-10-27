@@ -1,0 +1,22 @@
+build:
+  maxIssues: 0
+config:
+  validation: true
+  warningsAsErrors: true
+complexity:
+  TooManyFunctions:
+    thresholdInClasses: 25
+  LongMethod:
+    threshold: 120
+style:
+  ReturnCount:
+    max: 3
+  MagicNumber:
+    active: false
+  WildcardImport:
+    excludes: ['**/src/test/**']
+exceptions:
+  TooGenericExceptionCaught:
+    active: false
+  SwallowedException:
+    active: false
